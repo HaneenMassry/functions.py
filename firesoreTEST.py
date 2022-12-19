@@ -30,9 +30,28 @@ db=firestore.client()
 #    print(result.to_dict())
 #else :
 #    print("false")
+
+
+Classes=[]
 subjects=[]
 teachers = []  # בניית מערך
-def creatSchool(teachers,subjects):
+def creatSchool(teachers,subjects,Classes):
+
+    SchoolName = (str)(input("Writeschoolname"))
+
+    st=(str)(input("what the type of the school? (Primary School,preparatory School,High school)"))
+    if (st=="Primary"):
+        for x in range (1,7):
+            Classes.append(x)
+
+    else:
+        if (st=="Preparatory"):
+            for x in range(7,10):
+             Classes.append(x)
+
+        else:
+           for x in range(10,13):
+               Classes.append(x)
 
     teacherNum= (int)(input(" how many teachers in the school?"))
     for x in range(teacherNum):
@@ -45,8 +64,7 @@ def creatSchool(teachers,subjects):
         if st!="Done":
          subjects.append(st)
 
-    SchoolName = (str)(input("Writeschoolname"))
-    db.collection('School').add({'Schoolname': SchoolName, 'Teachers': teachers,'Subjects':subjects})
+    db.collection('School').add({'Schoolname': SchoolName, 'Teachers': teachers,'Subjects':subjects,'Classes':Classes})
 
 
 
@@ -76,7 +94,7 @@ def addSubject(subjects):
 
 
 
-creatSchool(teachers,subjects)
+creatSchool(teachers,subjects,Classes)
 addTeacher(teachers)
 addSubject(subjects)
 
