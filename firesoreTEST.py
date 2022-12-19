@@ -30,17 +30,23 @@ db=firestore.client()
 #    print(result.to_dict())
 #else :
 #    print("false")
-
-teachers = ['']  # בניית מערך
-def creatSchool(teachers):
+subjects=[]
+teachers = []  # בניית מערך
+def creatSchool(teachers,subjects):
 
     teacherNum= (int)(input(" how many teachers in the school?"))
     for x in range(teacherNum):
         teacher=(str)(input("write the teacher name"))
         teachers.append(teacher)
 
+    st=""
+    while st!="Done" :
+        st=(str)(input("wtite the subject name, if done type #Done#"))
+        if st!="Done":
+         subjects.append(st)
+
     SchoolName = (str)(input("Writeschoolname"))
-    db.collection('School').add({'Schoolname': SchoolName, 'Teachers': teachers})
+    db.collection('School').add({'Schoolname': SchoolName, 'Teachers': teachers,'Subjects':subjects})
 
 
 
@@ -48,23 +54,31 @@ def creatSchool(teachers):
 def addTeacher(teachers):
     newTeacher=(str)(input("write the name of the new teacher"))
     WhichSchool=(str)(input(" To ehich school do you want to add this teacher?"))
-    newTeachers=teachers.append(newTeacher)
-    print(newTeachers)
-    #docs = db.collection('School').where(u'Schoolname', u'==', WhichSchool).stream()
-    #for doc in docs:
-     #  key = doc.id
-      #doc.reference.update({u'Teachers': newTeachers})
-      # db.collection('School').document(key).update({"Teachers":newTeachers})
-      # print(doc.to_dict())
+    teachers.append(newTeacher)
+    print(teachers)
+    docs = db.collection('School').where(u'Schoolname', u'==', WhichSchool).stream()
+    for doc in docs:
+     doc.reference.update({u'Teachers': teachers})
+     print(doc.to_dict())
 
 
 #sss
-#def addSubject:
+def addSubject(subjects):
+    newSubject = (str)(input("write the name of the new Subject"))
+    WhichSchool = (str)(input("To which school do you want to add this teacher?"))
+    subjects.append(newSubject)
+   # print(teachers)
+    docs = db.collection('School').where(u'Schoolname', u'==', WhichSchool).stream()
+    for doc in docs:
+        doc.reference.update({u'Subjects': subjects})
+       # print(doc.to_dict())
 
 
-#creatSchool(teachers)
+
+
+creatSchool(teachers,subjects)
 addTeacher(teachers)
-
+addSubject(subjects)
 
 
 
