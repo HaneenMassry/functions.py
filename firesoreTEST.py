@@ -17,7 +17,7 @@ TeSub=[]
 
 def creatSchool(teachers,subjects,Classes):
 
-    SchoolName = (str)(input("Writeschoolname"))
+    SchoolName = (str)(input("Write school name"))
 
     st = (str)(input("what the type of the school? (Primary School,preparatory School,High school)"))
     if (st == "Primary"):
@@ -67,7 +67,6 @@ def addTeacher(teachers,Schools):
         print(doc.to_dict())
 
 
-#sss
 def addSubject(subjects):
     newSubject = (str)(input("write the name of the new Subject"))
     WhichSchool = (str)(input("To which school do you want to add this teacher?"))
@@ -88,11 +87,18 @@ def creatTeacher(Schools):
     db.collection('Teacher').add({'Teachername': teachername, 'Schools': Schools})
 
 
+st=(str)(input("what do you want to do? upload new school/ upload new teacher/ add teacher to school/ add subject to school"))
+if st=="upload school":
+    creatSchool(teachers, subjects, Classes)
 
+if st=="upload teacher":
+    creatTeacher(Schools)
 
-creatSchool(teachers,subjects,Classes)
-creatTeacher(Schools)
-addTeacher(teachers,Schools)
-#addSubject(subjects)
+if st=="add teacher":
+    addTeacher(teachers, Schools)
+
+if st == "add subject":
+    addSubject(subjects)
+
 
 
