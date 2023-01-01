@@ -6,16 +6,16 @@ cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
-
-Classes = []
-subjects = []
-teachers = []  # בניית מערך
+  # בניית מערך
 
 
 Schools=[]
 TeSub=[]
 
-def creatSchool(teachers,subjects,Classes):
+def creatSchool():
+    Classes = []
+    subjects = []
+    teachers = []
 
     SchoolName = (str)(input("Write school name"))
 
@@ -37,25 +37,26 @@ def creatSchool(teachers,subjects,Classes):
     for x in range(teacherNum):
         teacher = (str)(input("write the teacher name"))
         teachers.append(teacher)
+        #בדיקת אם יש מורה בנוי בשם זה
         docs = db.collection('Teacher').where(u'Teachername', u'==', teacher).stream()
         count=0
         for doc in docs:
             count=count+1
 
         if count==0:
-            creatTeacher(Schools)
+            creatTeacher()
 
         else:
             docs = db.collection('Teacher').where(u'Teachername', u'==', teacher).stream()
             for doc in docs:
-                bal = doc.to_dict()[u'Schools']
-                #bal = u'{}'.format(get_bal.to_dict())
+                bal = doc.to_dict()[u'Schools'] #ךקחת את ערך  ה field של מטרים בב"ס
                 check = False
                 for j in bal:
                     if j != SchoolName:
                         check = True
 
                 if check:
+                    #הוספת ב"ס חדש למערך בתי ספר של מורה
                    bal.append(SchoolName)
                    doc.reference.update({u'Schools': bal})
                    print(doc.to_dict())
@@ -72,7 +73,7 @@ def creatSchool(teachers,subjects,Classes):
 
 
 
-def addTeacher(teachers,Schools):
+def addTeacher():
     newTeacher = (str)(input("write the name of the new teacher"))
     WhichSchool = (str)(input(" To ehich school do you want to add this teacher?"))
 
@@ -84,14 +85,22 @@ def addTeacher(teachers,Schools):
         doc.reference.update({u'Teachers': teachers})
         print(doc.to_dict())
 
-
-    #Schools.append(WhichSchool)
     docs = db.collection('Teacher').where(u'Teachername', u'==', newTeacher).stream()
+    count = 0
     for doc in docs:
-        bal=doc.to_dict()[u'Schools']
-        bal.append(WhichSchool)
-        doc.reference.update({u'Schools': bal})
-        print(doc.to_dict())
+        count = count + 1
+
+    if count == 0:
+        creatTeacher()
+
+    else:
+        docs = db.collection('Teacher').where(u'Teachername', u'==', newTeacher).stream()
+        for doc in docs:
+            bal = doc.to_dict()[u'Schools']
+            bal.append(WhichSchool)
+            doc.reference.update({u'Schools': bal})
+
+
 
 
 def addSubject(subjects):
@@ -103,7 +112,11 @@ def addSubject(subjects):
         doc.reference.update({u'Subjects': subjects})
 
 
-def creatTeacher(Schools):
+def creatTeacher():
+
+    Schools=[]
+    subjects=[]
+
     teachername = (str)(input("write the teacher name"))
     st = ""
     while st != "Done":
@@ -111,21 +124,15 @@ def creatTeacher(Schools):
         if st != "Done":
             Schools.append(st)
 
-    db.collection('Teacher').add({'Teachername': teachername, 'Schools': Schools})
 
+    st = ""
+    while st != "Done":
+        st = (str)(input("wtite the subject name, if done type #Done#"))
+        if st != "Done":
+         subjects.append(st)
 
-st=(str)(input("what do you want to do? upload new school/ upload new teacher/ add teacher to school/ add subject to school"))
-if st=="upload school":
-    creatSchool(teachers, subjects, Classes)
+    db.collection('Teacher').add({'Teachername': teachername, 'Schools': Schools, 'Subjects': subjects})
 
-if st=="upload teacher":
-    creatTeacher(Schools)
-
-if st=="add teacher":
-    addTeacher(teachers, Schools)
-
-if st == "add subject":
-    addSubject(subjects)
 
 
 
