@@ -14,6 +14,12 @@ from firebase_admin import db, storage
 from json import JSONEncoder
 
 
+
+from firesoreTEST import *
+
+
+
+
 def extractAud(vid):
     my_clip = mp.VideoFileClip(vid)
     # my_clip

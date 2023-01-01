@@ -37,6 +37,29 @@ def creatSchool(teachers,subjects,Classes):
     for x in range(teacherNum):
         teacher = (str)(input("write the teacher name"))
         teachers.append(teacher)
+        docs = db.collection('Teacher').where(u'Teachername', u'==', teacher).stream()
+        count=0
+        for doc in docs:
+            count=count+1
+
+        if count==0:
+            creatTeacher(Schools)
+
+        else:
+            docs = db.collection('Teacher').where(u'Teachername', u'==', teacher).stream()
+            for doc in docs:
+                bal = doc.to_dict()[u'Schools']
+                #bal = u'{}'.format(get_bal.to_dict())
+                check = False
+                for j in bal:
+                    if j != SchoolName:
+                        check = True
+
+                if check:
+                   bal.append(SchoolName)
+                   doc.reference.update({u'Schools': bal})
+                   print(doc.to_dict())
+
 
     st = ""
     while st != "Done":
@@ -52,18 +75,22 @@ def creatSchool(teachers,subjects,Classes):
 def addTeacher(teachers,Schools):
     newTeacher = (str)(input("write the name of the new teacher"))
     WhichSchool = (str)(input(" To ehich school do you want to add this teacher?"))
-    teachers.append(newTeacher)
-    print(teachers)
+
+    #print(teachers)
     docs = db.collection('School').where(u'Schoolname', u'==', WhichSchool).stream()
     for doc in docs:
-      doc.reference.update({u'Teachers': teachers})
-      print(doc.to_dict())
+        teachers=doc.to_dict()[u'Teachers']
+        teachers.append(newTeacher)
+        doc.reference.update({u'Teachers': teachers})
+        print(doc.to_dict())
 
 
-    Schools.append(WhichSchool)
+    #Schools.append(WhichSchool)
     docs = db.collection('Teacher').where(u'Teachername', u'==', newTeacher).stream()
     for doc in docs:
-        doc.reference.update({u'Schools': Schools})
+        bal=doc.to_dict()[u'Schools']
+        bal.append(WhichSchool)
+        doc.reference.update({u'Schools': bal})
         print(doc.to_dict())
 
 
