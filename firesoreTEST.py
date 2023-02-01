@@ -3,7 +3,13 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 cred = credentials.Certificate("serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred, {
+
+          'storageBucket': 'uploadtest-2e678.appspot.com',
+
+          'databaseURL': 'https://uploadtest-2e678-default-rtdb.firebaseio.com/'
+      })
+
 
 db = firestore.client()
   # בניית מערך

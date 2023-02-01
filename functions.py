@@ -148,19 +148,19 @@ def uploadfinal():
       filename = Video
       filename1 = Srt_File
 
-      cred = credentials.Certificate('firebase-sdk.json')
-      firebase_admin.initialize_app(cred, {
+   #   cred = credentials.Certificate('firebase-sdk.json')
+    #  firebase_admin.initialize_app(cred, {
 
-          'storageBucket': 'uploadtest-2e678.appspot.com',
+     #     'storageBucket': 'uploadtest-2e678.appspot.com',
 
-          'databaseURL': 'https://uploadtest-2e678-default-rtdb.firebaseio.com/'
-      })
+      #    'databaseURL': 'https://uploadtest-2e678-default-rtdb.firebaseio.com/'
+      #})
 
       bucket = storage.bucket()
-      blob = bucket.blob("Schools/"+School + Subject+"/" + Teacher + "/" + Class + "/" + "Video_Files/" + filename)
+      blob = bucket.blob("Schools/"+School + "/"+ Subject+"/" + Teacher + "/" + Class + "/" + "Video_Files/" + filename)
       blob.upload_from_filename(filename)
 
-      blob = bucket.blob("Schools/"+School + Subject+"/" + Teacher + "/" + Class + "/" + "TXT_Files/" + filename1)
+      blob = bucket.blob("Schools/"+School +"/"+  Subject+"/" + Teacher + "/" + Class + "/" + "TXT_Files/" + filename1)
       blob.upload_from_filename(filename1)
 
   # database:
@@ -185,15 +185,15 @@ def uploadfinal():
   # check if there is a package that called acording of what we want>> if not creat one >> if true print "TRUE"
 
   # input the subject name&date
-  Class = (str)(input("write which class"))
-  Subject = (str)(input("write the subject name"))
-  Teacher = (str)(input("teacher name"))
-  School = (str)(input("SChool name "))
+ # Class = (str)(input("write which class"))
+ # Subject = (str)(input("write the subject name"))
+ # Teacher = (str)(input("teacher name"))
+ # School = (str)(input("SChool name "))
   lessonName = (str)(input("Write lesson name"))
   Video=lessonName+".mp4"
   Srt_File = lessonName+".txt"
 
   extractAud(Video)
   subtitelsSRT('my_result.mp3')
-  uploadLesson()
+ # uploadLesson()
 
