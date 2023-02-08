@@ -95,7 +95,7 @@ def uploadfinal():
           # iterate through all files and each add to srt file
 
           for i in range(0, num_of_files):
-              file_part = str(i) + "_" + AUDIO_FILE #todo hiiiii
+              file_part = str(i) + "_" + AUDIO_FILE
               # use the audio file as the audio source
               r = sr.Recognizer()
               with sr.AudioFile(file_part) as source:
@@ -182,18 +182,16 @@ def uploadfinal():
   #       subjects "Math,CS..."
   #       class "10,11,12"
 
-  # check if there is a package that called acording of what we want>> if not creat one >> if true print "TRUE"
 
-  # input the subject name&date
- # Class = (str)(input("write which class"))
- # Subject = (str)(input("write the subject name"))
- # Teacher = (str)(input("teacher name"))
- # School = (str)(input("SChool name "))
+  Class = (str)(input("write which class"))
+  Subject = (str)(input("write the subject name"))
+  Teacher = (str)(input("teacher name"))
+  School = (str)(input("SChool name "))
   lessonName = (str)(input("Write lesson name"))
   Video=lessonName+".mp4"
   Srt_File = lessonName+".txt"
 
   extractAud(Video)
   subtitelsSRT('my_result.mp3')
- # uploadLesson()
+  uploadLesson()
 
